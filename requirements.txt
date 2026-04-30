@@ -1,8 +1,2 @@
 streamlit
-folium
-streamlit-folium
-sqlite3
 pandas
-uuid
-io
-os
