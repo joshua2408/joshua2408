@@ -95,9 +95,9 @@ col1, col2 = st.columns([3, 1])
 with col1:
     # Mapeo de urls para estilos con el mensaje oculto en la atribución
     tiles_dict = {
-        "OpenStreetMap": ("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", '&copy; OpenStreetMap | te extraño sakura'),
-        "CartoDB Positron": ("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", '&copy; CartoDB | te extraño sakura'),
-        "CartoDB Dark_Matter": ("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", '&copy; CartoDB | te extraño sakura')
+        "OpenStreetMap": ("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", '&copy; OpenStreetMap | te extraño sakura😔'),
+        "CartoDB Positron": ("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", '&copy; CartoDB | te extraño sakura😔'),
+        "CartoDB Dark_Matter": ("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", '&copy; CartoDB | te extraño sakura😔')
     }
     
     selected_tile, attribution_text = tiles_dict[map_style]
