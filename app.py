@@ -12,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Inicializar el buscador de direcciones (User_agent es requerido por Nominatim)
+# Inicializar el buscador de direcciones
 geolocator = Nominatim(user_agent="my_streamlit_maps_app")
 
 # --- ESTILOS CSS PERSONALIZADOS ---
@@ -35,13 +35,13 @@ st.markdown("""
 st.markdown('<p class="main-title">📍 GeoMap Pro</p>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Tu mapa interactivo con GPS en tiempo real y buscador de direcciones.</p>', unsafe_allow_html=True)
 
-# --- ESTADO DE LA SESIÓN (Para recordar ubicaciones) ---
+# --- ESTADO DE LA SESIÓN (Tijuana por defecto) ---
 if "lat" not in st.session_state:
-    st.session_state.lat = 19.4326  # CDMX por defecto
+    st.session_state.lat = 32.5149  
 if "lon" not in st.session_state:
-    st.session_state.lon = -99.1332
+    st.session_state.lon = -117.0382
 if "address_name" not in st.session_state:
-    st.session_state.address_name = "Ciudad de México (Defecto)"
+    st.session_state.address_name = "Tijuana, Baja California (Defecto)"
 
 # --- BARRA LATERAL (CONTROLES) ---
 with st.sidebar:
@@ -50,14 +50,13 @@ with st.sidebar:
     # 1. BOTÓN DE GPS REAL
     st.subheader("🛰️ Mi Ubicación Actual")
     if st.button("🎯 Detectar mi GPS", use_container_width=True):
-        with st.spinner("Obteniendo señal GPS del navegador..."):
-            # Obtiene la ubicación del navegador del usuario vía JS
+        with st.spinner("Obteniendo señal GPS..."):
             loc = streamlit_js_eval(data_of='gcl', want_objects=True)
             if loc:
                 st.session_state.lat = loc['coords']['latitude']
                 st.session_state.lon = loc['coords']['longitude']
                 st.session_state.address_name = "Tu ubicación actual"
-                st.success("¡Ubicación detectada con éxito!")
+                st.success("¡Ubicación detectada!")
             else:
                 st.warning("Por favor, permite el acceso a la ubicación en tu navegador.")
 
@@ -76,9 +75,9 @@ with st.sidebar:
                     st.session_state.address_name = location.address
                     st.success(f"Encontrado: {location.address[:40]}...")
                 else:
-                    st.error("No se encontró el lugar. Intenta ser más específico.")
+                    st.error("No se encontró el lugar.")
             except Exception as e:
-                st.error("Error en la búsqueda. Intenta de nuevo.")
+                st.error("Error en la búsqueda.")
 
     st.write("---")
 
@@ -88,20 +87,18 @@ with st.sidebar:
         "Estilo visual:",
         ["OpenStreetMap", "CartoDB Positron", "CartoDB Dark_Matter"]
     )
-    zoom_level = st.slider("Zoom por defecto", 2, 20, 14)
+    zoom_level = st.slider("Zoom por defecto", 2, 20, 12)
 
 # --- CUERPO PRINCIPAL ---
 col1, col2 = st.columns([3, 1])
 
 with col1:
-    # Crear el mapa interactivo de Folium
     m = folium.Map(
         location=[st.session_state.lat, st.session_state.lon],
         zoom_start=zoom_level,
         tiles=map_style
     )
 
-    # Añadir marcador de la ubicación actual
     folium.Marker(
         [st.session_state.lat, st.session_state.lon],
         popup=st.session_state.address_name,
@@ -109,18 +106,15 @@ with col1:
         icon=folium.Icon(color="red", icon="map-pin", prefix="fa")
     ).add_to(m)
 
-    # Renderizar el mapa de manera responsiva
     map_data = st_folium(m, width="100%", height=550)
 
 with col2:
     st.markdown("### 📊 Datos de Ubicación")
     st.info(f"**Lugar:**\n{st.session_state.address_name}")
     
-    # Mostrar coordenadas actuales en cajitas limpias
     st.metric(label="Latitud", value=f"{st.session_state.lat:.6f}")
     st.metric(label="Longitud", value=f"{st.session_state.lon:.6f}")
 
-    # Capturar clics nuevos en el mapa
     if map_data and map_data.get("last_clicked"):
         click_lat = map_data["last_clicked"]["lat"]
         click_lon = map_data["last_clicked"]["lng"]
@@ -129,7 +123,6 @@ with col2:
         st.markdown("**📍 Último punto seleccionado:**")
         st.code(f"Lat: {click_lat:.6f}\nLon: {click_lon:.6f}", language="text")
         
-        # Botón para mover el marcador allí
         if st.button("Centrar mapa aquí", use_container_width=True):
             st.session_state.lat = click_lat
             st.session_state.lon = click_lon
