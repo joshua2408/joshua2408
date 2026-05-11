@@ -1,7 +1,7 @@
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
-from streamlit_js-eval import streamlit_js_eval
+from streamlit_js_eval import streamlit_js_eval
 from geopy.geocoders import Nominatim
 
 # Configuración avanzada de la página
