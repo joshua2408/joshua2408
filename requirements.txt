@@ -3,3 +3,5 @@ folium
 streamlit-folium
 streamlit-js-eval
 geopy
+matplotlib
+numpy
