@@ -59,15 +59,14 @@ if nombre:
         x_infinitesimal = 16 * np.sin(t_relleno) ** 3
         y_infinitesimal = 13 * np.cos(t_relleno) - 5 * np.cos(2*t_relleno) - 2 * np.cos(3*t_relleno) - np.cos(4*t_relleno)
         
-        # El factor de relleno menor a 0.95 asegura que se queden adentro y dejen un pequeño espacio con el borde
         factor_adentro = np.random.uniform(0.0, 0.92, densidad_relleno) ** 0.6
         x_interior = x_infinitesimal * factor_adentro
         y_interior = y_infinitesimal * factor_adentro
 
-        # Dibujar relleno (más transparente y con rotación para dar contraste)
+        # Dibujar relleno (ajustado para mayor visibilidad sin saturar)
         for i in range(densidad_relleno):
-            size = np.random.uniform(5, 7.5) # Un poco más pequeños adentro
-            rotation = np.random.uniform(-20, 20)
+            size = np.random.uniform(6.0, 8.5) # Un poco más grandes (antes 5 a 7.5)
+            rotation = np.random.uniform(-15, 15) # Rotación ligeramente más sutil
             
             ax.text(
                 x_interior[i], y_interior[i], nombre,
@@ -75,7 +74,7 @@ if nombre:
                 fontsize=size,
                 ha='center', va='center',
                 rotation=rotation,
-                alpha=0.4 # Más transparente para que el contorno resalte
+                alpha=0.55 # Opacidad intermedia perfecta (antes 0.4)
             )
 
         # Ajustes de límites y visualización
