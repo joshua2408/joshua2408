@@ -23,7 +23,7 @@ st.title("❤️ Silueta de Corazón Personalizada")
 st.write("Crea un corazón con un contorno definido y relleno texturizado usando el nombre que quieras.")
 
 # --- ENTRADAS DEL USUARIO ---
-nombre = st.text_input("Introduce el nombre:", value="Sakura", max_chars=20)
+nombre = st.text_input("Introduce el nombre:", value="Ambar", max_chars=20)
 color_elegido = st.color_picker("Selecciona el color:", "#FF1493")
 
 # Controles separados para definir la silueta a gusto

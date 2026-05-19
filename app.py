@@ -4,7 +4,6 @@ from streamlit_folium import st_folium
 from streamlit_js_eval import streamlit_js_eval
 from geopy.geocoders import Nominatim
 
-# Configuración avanzada de la página
 st.set_page_config(
     page_title="GeoMap Pro",
     page_icon="📍",
@@ -12,10 +11,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Inicializar el buscador de direcciones
 geolocator = Nominatim(user_agent="my_streamlit_maps_app")
 
-# --- ESTILOS CSS PERSONALIZADOS ---
 st.markdown("""
     <style>
     .main-title {
@@ -35,7 +32,6 @@ st.markdown("""
 st.markdown('<p class="main-title">📍 GeoMap Pro</p>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Tu mapa interactivo con GPS en tiempo real y buscador de direcciones.</p>', unsafe_allow_html=True)
 
-# --- ESTADO DE LA SESIÓN (Tijuana por defecto) ---
 if "lat" not in st.session_state:
     st.session_state.lat = 32.5149  
 if "lon" not in st.session_state:
@@ -43,11 +39,9 @@ if "lon" not in st.session_state:
 if "address_name" not in st.session_state:
     st.session_state.address_name = "Tijuana, Baja California (Defecto)"
 
-# --- BARRA LATERAL (CONTROLES) ---
 with st.sidebar:
     st.header("⚙️ Panel de Control")
     
-    # 1. BOTÓN DE GPS REAL
     st.subheader("🛰️ Mi Ubicación Actual")
     if st.button("🎯 Detectar mi GPS", use_container_width=True):
         with st.spinner("Obteniendo señal GPS..."):
@@ -62,7 +56,6 @@ with st.sidebar:
 
     st.write("---")
 
-    # 2. BUSCADOR DE DIRECCIONES
     st.subheader("🔍 Buscar Lugar")
     search_query = st.text_input("Escribe una ciudad, monumento o dirección:")
     if st.button("Buscar en el mapa", use_container_width=True) and search_query:
@@ -81,7 +74,6 @@ with st.sidebar:
 
     st.write("---")
 
-    # 3. PERSONALIZACIÓN DEL MAPA
     st.subheader("🎨 Personalización")
     map_style = st.selectbox(
         "Estilo visual:",
@@ -89,11 +81,9 @@ with st.sidebar:
     )
     zoom_level = st.slider("Zoom por defecto", 2, 20, 12)
 
-# --- CUERPO PRINCIPAL ---
 col1, col2 = st.columns([3, 1])
 
 with col1:
-    # Mapeo de urls para estilos con el mensaje oculto en la atribución
     tiles_dict = {
         "OpenStreetMap": ("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", '&copy; OpenStreetMap | te extraño sakura😔'),
         "CartoDB Positron": ("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", '&copy; CartoDB | te extraño sakura😔'),
